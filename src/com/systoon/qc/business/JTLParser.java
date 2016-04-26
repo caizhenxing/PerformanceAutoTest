@@ -11,9 +11,9 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * JMeterÐÂ°æ±¾csvÐÎÊ½JTL·ÖÎöÆ÷
+ * JMeterï¿½Â°æ±¾csvï¿½ï¿½Ê½JTLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  * @author tinghe
- * @version $Id: JTLParser.java, v 0.1 2013-6-28 ÏÂÎç2:27:42 tinghe Exp $
+ * @version $Id: JTLParser.java, v 0.1 2013-6-28 ï¿½ï¿½ï¿½ï¿½2:27:42 tinghe Exp $
  */
 public class JTLParser {
     private String                    jtlFile = "";
@@ -60,7 +60,7 @@ public class JTLParser {
     }
 
     public static void main(String[] args) throws FileNotFoundException {
-        String jtlFile = "/opt/installPackage/apache-jmeter-2.7/sla/14:56:36-15:02:53/test1.jtl";
+        String jtlFile = "/Users/perfermance/JmeterTest/apache-jmeter-2.13/bin/baidu.jtl";
         JTLParser jtlParser = new JTLParser(jtlFile);
         jtlParser.parse();
         jtlParser.print();
