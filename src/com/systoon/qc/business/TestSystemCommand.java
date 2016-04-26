@@ -30,12 +30,12 @@ public class TestSystemCommand {
 			Process pos = Runtime.getRuntime().exec(cmds);
 			System.out.println("00000000s");
 			pos.waitFor();
-			if(tp==1){
+		/*	if(tp==1){
 				if(pos.exitValue()==1){
 					rt="1";
 				}
 			}else{
-				
+		*/		
 				System.out.println("%%%%" + pos);
 				InputStreamReader ir = new InputStreamReader(pos.getInputStream());
 				System.out.println("####" + ir);
@@ -48,7 +48,7 @@ public class TestSystemCommand {
 				rt = buf.toString();
 				input.close();
 				ir.close();
-			}
+	//		}
 		}catch (java.io.IOException e) {
 			rt=e.toString();
 		}catch (Exception e) {
