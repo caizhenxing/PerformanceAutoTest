@@ -9,16 +9,20 @@ import java.util.Date;
 
 public class ExecuteJmeter {
 
-	public Process executeJmeter(String jmeterExe,String jmxPlan,String jtlResult) throws IOException{
-		
+	public Process executeJmeter(String jmeterExe, String jmxRealPlan, String jtlResult, String lOADERIP1) throws IOException {
 		/* ִ执行Jmeter测试计划*/
-		String command = jmeterExe + " -n " + " -t " + jmxPlan + " -l " + jtlResult;
+		String command = "/bin/sh " + " -c " + "\"" + jmeterExe + " -n " + " -t " + jmxRealPlan + " -l " + jtlResult + " -R " + lOADERIP1 + "\"";
 //		String command = "cmd /c " + jmeterExe + " -n " + " -t " + jmxPlan + " -l " + jtlResult;
 		System.out.println(command);
 		Runtime run = Runtime.getRuntime();
 		Process process = run.exec(command);
-		return process;
 		
+		
+		
+		
+		
+		
+		return process;
 	}
 
 }

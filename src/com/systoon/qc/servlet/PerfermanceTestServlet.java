@@ -1,6 +1,8 @@
 package com.systoon.qc.servlet;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.catalina.tribes.membership.StaticMember;
 
 import com.systoon.qc.business.ConvertJtlToHtml;
 import com.systoon.qc.business.ExecuteJmeter;
@@ -28,7 +32,8 @@ public class PerfermanceTestServlet extends HttpServlet {
 
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		final String LOADERIP1 = "172.28.16.150"; 
+		final String LOADERIP2 = "172.28.16.130"; 
 		
 		/**
 		 * 获取UI传递的参数
@@ -44,18 +49,19 @@ public class PerfermanceTestServlet extends HttpServlet {
 		 * 定义Jmeter路径，计划文件，结果文件
 		 */
 		SimpleDateFormat simpleDate = new SimpleDateFormat("yyyymmdd");
-		String ctime = simpleDate.format(new Date());		
-		String jmeterExe = "jmeter";
-		String jmxPlan = "Jmeter-template.jmx";
+		String ctime = simpleDate.format(new Date());	
+		String jmeterExe ="jmeter";
+//		String jmxPlan = "Jmeter-template.jmx";
+		String jmxPlan = "saveOperInfo_ok.jmx";
 //		String jmxRealPlan = request.getRealPath(jmxPlan);
-		String jmxRealPlan = "D:\\" + jmxPlan;
+		String jmxRealPlan = "/Users/perfermance/JmeterTest/script/" + jmxPlan;
 		String jmxPlanName = path.replaceAll("/", "_") + "_" + vuser + "_" + ctime + ".jmx";
 		String jtlName = jmxPlan.substring(0, jmxPlan.indexOf('.')) + "_" + ctime + ".jtl";
 //		String jtlResult = "/jtlResult/" + jtlName ;
-		String jtlResult = "D:\\jtlResult\\" + jtlName ;
+		String jtlResult = "/Users/perfermance/JmeterTest/results/jtl/" + jtlName ;
 		String htmlResult = "D:\\htmlResult";
 		
-		System.out.println(request.getRealPath(jtlResult));
+		System.out.println(jtlResult);
 		System.out.println();
 		System.out.println();
 
@@ -74,7 +80,23 @@ public class PerfermanceTestServlet extends HttpServlet {
 		 * 后端调用shell ／ 批处理文件  执行 jmeter -n (no GUI)
 		 */
 		ExecuteJmeter ex = new ExecuteJmeter();
-		Process process = ex.executeJmeter(jmeterExe, jmxRealPlan, jtlResult);
+		Process process = ex.executeJmeter(jmeterExe, jmxRealPlan, jtlResult,LOADERIP1);
+		
+		BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
+		String msg = null;
+		try {
+			while((msg = br.readLine()) != null){
+				System.out.println(msg);
+//				out.println("<br><br>");
+			}
+//			br.close();  
+	        process.waitFor();
+		} catch (IOException | InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			br.close();
+		}
 		
 		/**
 		 * 实时打印log至页面
