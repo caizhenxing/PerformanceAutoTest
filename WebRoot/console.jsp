@@ -1,4 +1,5 @@
-<%@page import="com.systoon.qc.business.PrintLog"%>
+<%@page import="java.io.PrintWriter"%>
+<%@page import="com.systoon.qc.business.JavaShellUtil"%>
 <%@page import="org.apache.tomcat.jni.ProcErrorCallback"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -13,6 +14,10 @@
 				height:800px;
 				background:;
 				margin:10px auto;
+				border: 1px solid black;
+/* 				border-style:solid; 
+				border-width:1px; 
+				border-color:#000 */
 			}
 
 			span{
@@ -23,7 +28,7 @@
 		</style>
 </head>
 <body>
-	<div>
+	<div >
 		<h2 style="text-align:left">控制台输出</h2>
 		<h5 style="text-align:left">请求地址：
 			<%
@@ -32,9 +37,20 @@
 		</h5>
 		<p style="text-align:left">
 			<%
-				Process pro = (Process)request.getAttribute("process");
-				PrintLog pl = new PrintLog();
-				pl.printJspLog(pro, out);
+			
+				/* 前端调用shell执行指令，并打印日志 */
+			    String jmeterRemoteExecute = (String)request.getAttribute("jmeterRemoteExecute");
+			    String executeShellLogFile = (String)request.getAttribute("executeShellLogFile");
+			    PrintWriter out1 = response.getWriter();
+
+			
+ 		        try {
+		            new JavaShellUtil().executeShell(jmeterRemoteExecute,executeShellLogFile,out1);
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        } 
+
+				out.println(jmeterRemoteExecute + executeShellLogFile);
 				
 				
 			%>

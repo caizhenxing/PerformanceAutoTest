@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,7 +17,7 @@ import java.util.Date;
 public class JavaShellUtil {
     
  
-    public int executeShell(String shellCommand,String executeShellLogFile) throws IOException {
+    public int executeShell(String shellCommand,String executeShellLogFile,PrintWriter out) throws IOException {
         System.out.println("shellCommand:"+shellCommand);
         int success = 0;
         StringBuffer stringBuffer = new StringBuffer();
@@ -37,14 +38,17 @@ public class JavaShellUtil {
                         .append("\r\n");
                 // bufferedReader用于读取Shell的输出内容
                 bufferedReader = new BufferedReader(new InputStreamReader(pid.getInputStream()), 1024);
-//                pid.waitFor();
-                System.out.println(stringBuffer);
+//                pid.waitFor();   阻塞进程，等待命令执行完毕
+//                System.out.println(stringBuffer);
+                out.println(stringBuffer); //jsp页面打印
                 String line = null;
                 // 读取Shell的输出内容，并添加到stringBuffer中,并打印
                 while (bufferedReader != null
                 		&& (line = bufferedReader.readLine()) != null) {
                 	stringBuffer.append(line).append("\r\n");
-                	System.out.println(line);
+//                	System.out.println(line);
+                	out.println(line);
+                	
                 }
             } else {
                 stringBuffer.append("没有pid\r\n");

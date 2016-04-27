@@ -73,44 +73,19 @@ public class PerfermanceTestServlet extends HttpServlet {
 		/**
 		 * 后端调用shell ／ 批处理文件 执行 jmeter -n (no GUI)
 		 */
-        try {
-            new JavaShellUtil().executeShell(jmeterRemoteExecute,executeShellLogFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+//        try {
+//            new JavaShellUtil().executeShell(jmeterRemoteExecute,executeShellLogFile);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 		response.setCharacterEncoding("GBK");
 		PrintWriter out = response.getWriter();
+	    
 
-		/**
-		 * 处理JMX计划文件，替换相关参数
-		 */
-		// JMXHandle jmx = new JMXHandle();
-		// jmx.handleJmxFile(ip, port, path, param, vuser);
-		// String generatjmxfilename = jmx.getGeneratjmxfilename();
+		request.setAttribute("jmeterRemoteExecute", jmeterRemoteExecute);
+		request.setAttribute("executeShellLogFile", executeShellLogFile);
+		request.getRequestDispatcher("console.jsp").forward(request, response);
 
-
-
-		/**
-		 * 实时打印log至页面
-		 */
-
-
-		/**
-		 * 获取测试结果
-		 */
-
-		/**
-		 * 转换jtl 到 html
-		 */
-		ConvertJtlToHtml jtoh = new ConvertJtlToHtml();
-//		jtoh.convert(jtlResult, htmlResult);
-
-		out.print("报告地址" + jtoh.getReportUrl());
-
-		System.out.println("ip : " + ip + "\n" + "port : " + port + "\n" + "path : " + path + "\n" + "param : " + param
-				+ "\n" + "vuser : " + vuser + "\n");
-//		System.out.println(url);
 	}
 
 }

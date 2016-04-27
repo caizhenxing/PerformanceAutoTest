@@ -1,4 +1,4 @@
-package com.systoon.qc.business;
+package com.systoon.qc.fromNet;
 
 import java.io.InputStreamReader;
 import java.io.LineNumberReader;

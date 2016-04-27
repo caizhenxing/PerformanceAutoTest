@@ -1,4 +1,4 @@
-package com.systoon.qc.business;
+package com.systoon.qc.fromNet;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
