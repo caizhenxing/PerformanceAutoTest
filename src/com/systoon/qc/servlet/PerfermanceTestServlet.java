@@ -28,6 +28,10 @@ public class PerfermanceTestServlet extends HttpServlet {
 	
 	private static final String LOADERIP1 = "172.28.16.150";
 	private static final String LOADERIP2 = "172.28.16.130";
+	
+	/*基本路径写入配置文件，从配置文件中读取
+	 * 
+	 */
 	// 基本路径
 	// private static final String basePath = "/root/";
 	private String baseJmeterPath = "/Users/perfermance/JmeterTest/apache-jmeter-2.13/bin/";
@@ -87,6 +91,7 @@ public class PerfermanceTestServlet extends HttpServlet {
 
 		request.setAttribute("process", pid);
 		request.getRequestDispatcher("console.jsp").forward(request, response);
+//		request.getRequestDispatcher("index.jsp").forward(request,response);
 
 	}
 

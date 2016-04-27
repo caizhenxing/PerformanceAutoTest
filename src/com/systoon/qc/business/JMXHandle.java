@@ -24,6 +24,24 @@ public class JMXHandle {
 		super();
 	}
 
+	/**
+	 * 1、重命名JMX文件，ApiName_Vuser_ctime.jmx
+	 * 2、创建JMX文件
+	 * 3、复制模版文件到新的JMX文件中
+	 * 4、解析JMX文件，替换相应参数，保存JMX文件
+	 * 5、将绝对路径写入数据库（后期实现）
+	 * 6、返回JMX文件名称
+	 * 
+	 * @param JmxtempleName
+	 * @param BaseJmxPath
+	 * @param Url (web server:ip:port)
+	 * @param Api (path)
+	 * @param Arguments (parameters/body data)
+	 * @param Method (get/post)
+	 * @param Assertion (string)
+	 * @param Vuser
+	 * @return JmxPlanName
+	 */
 	public void handleJmxFile(String ip, String port, String path, String param, String vuser) {
 		generatjmxfilename = path.replaceAll("/", "_") + "_" + vuser + "_" + ctime + ".jmx";
 

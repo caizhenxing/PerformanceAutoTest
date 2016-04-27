@@ -10,8 +10,8 @@
 <title>Jmeter console</title>
 <style type="text/css">
 			div{
-				width:800px;
-				height:800px;
+				width:80%;
+				height:80%;
 				background:;
 				margin:10px auto;
 				border: 1px solid black;
