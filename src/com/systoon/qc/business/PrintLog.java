@@ -5,45 +5,68 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.Writer;
+import java.util.Date;
 
 import javax.servlet.jsp.JspWriter;
 
 public class PrintLog {
-	public void printLog(Process process,PrintWriter out){
-		BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-		String msg = null;
-		try {
-			while((msg = br.readLine()) != null){
-				out.println(msg);
-				out.println("<br><br>");
+	public void printLog(Process pid,PrintWriter out){
+		if(pid != null){
+			out.print("进程号：" + pid + "\r\n");
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(pid.getInputStream()),1024);
+//			pid.waitFor();  阻塞进程，等待命令执行完毕
+			
+//			读取内容，打印日志
+			String msg = null;
+			try {
+				while(bufferedReader != null
+			            && (msg = bufferedReader.readLine()) != null){
+					out.println("<span>" + msg + "<span>");
+					out.println("<br><br>");
+				}
+//				pid.waitFor();
+				bufferedReader.close();  
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				
 			}
-			br.close();  
-	        process.waitFor();
-		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally{
-
+		}else{
+			out.print("进程没有启动");
 		}
+		
 		
 	}
 	
-	public void printJspLog(Process process,JspWriter out){
-		BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
-		String msg = null;
-		try {
-			while((msg = br.readLine()) != null){
-				out.println(msg);
-				out.println("<br><br>");
+	
+	public void printLog(Process pid,JspWriter out) throws IOException{
+		if(pid != null){
+			out.print("进程号：" + pid + "\r\n");
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(pid.getInputStream()),1024);
+//			pid.waitFor();  阻塞进程，等待命令执行完毕
+			
+//			读取内容，打印日志
+			String msg = null;
+			try {
+				while(bufferedReader != null
+			            && (msg = bufferedReader.readLine()) != null){
+					out.println("<span>" + msg + "<span>");
+					out.println("<br>");
+					out.flush();
+				}
+//				pid.waitFor();
+				bufferedReader.close();  
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}finally{
+				
 			}
-			br.close();  
-	        process.waitFor();
-		} catch (IOException | InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally{
-
+		}else{
+			out.print("进程没有启动");
+			out.flush();
 		}
-		
 	}
 }
+

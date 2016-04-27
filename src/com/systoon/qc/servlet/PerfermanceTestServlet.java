@@ -15,9 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.catalina.tribes.membership.StaticMember;
 
+import com.systoon.qc.bak.JavaShellUtil;
 import com.systoon.qc.business.ConvertJtlToHtml;
 import com.systoon.qc.business.ExecuteJmeter;
-import com.systoon.qc.business.JavaShellUtil;
 
 /**
  * Servlet implementation class PerfermanceTestServlet
@@ -73,17 +73,19 @@ public class PerfermanceTestServlet extends HttpServlet {
 		/**
 		 * 后端调用shell ／ 批处理文件 执行 jmeter -n (no GUI)
 		 */
-//        try {
-//            new JavaShellUtil().executeShell(jmeterRemoteExecute,executeShellLogFile);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-		response.setCharacterEncoding("GBK");
-		PrintWriter out = response.getWriter();
+		
+		Process pid = null;
+        try {
+            pid = new ExecuteJmeter().executeShell(jmeterRemoteExecute,executeShellLogFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+//		response.setCharacterEncoding("GBK");
+//		PrintWriter out = response.getWriter();
 	    
 
-		request.setAttribute("jmeterRemoteExecute", jmeterRemoteExecute);
-		request.setAttribute("executeShellLogFile", executeShellLogFile);
+		request.setAttribute("process", pid);
 		request.getRequestDispatcher("console.jsp").forward(request, response);
 
 	}

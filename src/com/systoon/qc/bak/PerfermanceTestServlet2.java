@@ -80,7 +80,7 @@ public class PerfermanceTestServlet2 extends HttpServlet {
 		 * 后端调用shell ／ 批处理文件  执行 jmeter -n (no GUI)
 		 */
 		ExecuteJmeter ex = new ExecuteJmeter();
-		Process process = ex.executeJmeter(jmeterExe, jmxRealPlan, jtlResult,LOADERIP1);
+     	Process process = (Process)ex.executeShell(jmeterExe, jmxRealPlan);
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		String msg = null;

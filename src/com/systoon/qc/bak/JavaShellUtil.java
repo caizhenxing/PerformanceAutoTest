@@ -1,4 +1,4 @@
-package com.systoon.qc.business;
+package com.systoon.qc.bak;
 
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
@@ -40,14 +40,14 @@ public class JavaShellUtil {
                 bufferedReader = new BufferedReader(new InputStreamReader(pid.getInputStream()), 1024);
 //                pid.waitFor();   阻塞进程，等待命令执行完毕
 //                System.out.println(stringBuffer);
-                out.println(stringBuffer); //jsp页面打印
+                out.print(stringBuffer); //jsp页面打印
                 String line = null;
                 // 读取Shell的输出内容，并添加到stringBuffer中,并打印
                 while (bufferedReader != null
                 		&& (line = bufferedReader.readLine()) != null) {
                 	stringBuffer.append(line).append("\r\n");
 //                	System.out.println(line);
-                	out.println(line);
+                	out.print(line);
                 	
                 }
             } else {
