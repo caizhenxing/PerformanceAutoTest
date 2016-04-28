@@ -23,6 +23,7 @@ import org.apache.catalina.tribes.membership.StaticMember;
 import com.systoon.qc.bak.JavaShellUtil;
 import com.systoon.qc.business.ConvertJtlToHtml;
 import com.systoon.qc.business.ExecuteJmeter;
+import com.systoon.qc.business.JmeterPlanHandle;
 
 /**
  * Servlet implementation class PerfermanceTestServlet
@@ -32,11 +33,14 @@ public class PerfermanceTestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private String loaderIP1 = null;
 	private String loaderIP2 = null;
+	private String JmxPlanTemple = null;
 	private String baseJmeterPath = null;
-	private String baseJMXPath = null;
+	private String baseJmxPath = null;
 	private String baseJtlPath = null;
     private String baseLogPath = null;
-    private String executeShellLogFile = null;
+    private String JmxPlanName = null;
+    private String JtlResultName = null;
+    private String executeLogFile = null;
 
 
 
@@ -56,8 +60,9 @@ public class PerfermanceTestServlet extends HttpServlet {
 		
 		// 基本路径
 		// private static final String basePath = "/root/";
+		JmxPlanTemple = servletContext.getInitParameter("JmxPlanTemple");
 		baseJmeterPath = servletContext.getInitParameter("baseJmeterPath");
-		baseJMXPath = servletContext.getInitParameter("baseJmeterPath");
+		baseJmxPath = servletContext.getInitParameter("baseJmxPath");
 		baseJtlPath = servletContext.getInitParameter("baseJtlPath");
 		baseLogPath = servletContext.getInitParameter("baseLogPath");
 		
@@ -100,8 +105,8 @@ public class PerfermanceTestServlet extends HttpServlet {
 //		}
 	
 		// 记录Shell执行状况的日志文件的位置(绝对路径)
-		String executeShellLogFile = baseJmeterPath + "executeShell.log";
-		System.out.println(loaderIP1 + baseJmeterPath + baseJMXPath + baseJtlPath);
+		executeLogFile = baseJmeterPath + "executeShell.log";
+		System.out.println(loaderIP1 + baseJmeterPath + baseJmxPath + baseJtlPath);
 		
 		
 	}
@@ -117,22 +122,32 @@ public class PerfermanceTestServlet extends HttpServlet {
 		String ip = request.getParameter("ip");
 		String port = request.getParameter("port");
 		String path = request.getParameter("path");
-		String param = request.getParameter("param");
+		String parameters = request.getParameter("parameters");
+		String method = request.getParameter("method");
 		String vuser = request.getParameter("vuser");
+		String assertion = request.getParameter("assertion");
 
 		/**
-		 * 定义Jmeter路径，计划文件，结果文件
+		 * 重命名 Jmeter 计划文件，结果文件
 		 */
-		SimpleDateFormat simpleDate = new SimpleDateFormat("yyyymmdd");
-		String ctime = simpleDate.format(new Date());
+		JmeterPlanHandle jph = new JmeterPlanHandle();
+		JmxPlanName = jph.renameJmxPlan(path);
+		JtlResultName = jph.renameJtlResult(path);
 		
-		String jmxPlanTemple = "baidu.jmx";
 		
-		String jtlName = jmxPlanTemple.substring(0, jmxPlanTemple.indexOf('.')) + "_" + ctime + ".jtl";
-		System.out.println(jtlName);
-
+		/**
+		 * 处理JMX文件
+		 */
+		if(!jph.handleJmxFile(JmxPlanTemple, path, assertion, ip, port, path, method, parameters, vuser, assertion)){
+			System.out.println("测试计划文件处理失败。。。。");
+		}else{
+			System.out.println("测试计划处理完成。。。。");
+		}
+		
 		// 执行jmeter命令(绝对路径)
-		String jmeterRemoteExecute = baseJmeterPath + "jmeter.sh" + " -n -t " + baseJMXPath + "baidu.jmx" + " -l " + baseJtlPath + "jtlName" ;
+		String jmeterRemoteExecute = baseJmeterPath + "jmeter.sh" 
+									+ " -n -t " + baseJmxPath + JmxPlanName 
+									+ " -l " + baseJtlPath + JtlResultName ;
 
 
 		/**
@@ -141,7 +156,7 @@ public class PerfermanceTestServlet extends HttpServlet {
 		
 		Process pid = null;
         try {
-            pid = new ExecuteJmeter().executeShell(jmeterRemoteExecute,executeShellLogFile);
+            pid = new ExecuteJmeter().executeShell(jmeterRemoteExecute,executeLogFile);
         } catch (IOException e) {
             e.printStackTrace();
         }

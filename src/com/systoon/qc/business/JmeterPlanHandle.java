@@ -13,24 +13,31 @@ import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class JMXHandle {
+public class JmeterPlanHandle {
 
-	private String generatjmxfilename;
-
-	SimpleDateFormat formatter = new SimpleDateFormat("yyMMddHHmm");
-	String ctime = formatter.format(new Date());
-
-	public JMXHandle() {
+	public JmeterPlanHandle() {
 		super();
 	}
+	
+	public String renameJmxPlan(String path){
+		SimpleDateFormat formatter = new SimpleDateFormat("yyMMddHHmm");
+		String ctime = formatter.format(new Date());
+		return null;
+	}
+	
+	public String renameJtlResult(String path){
+		SimpleDateFormat formatter = new SimpleDateFormat("yyMMddHHmm");
+		String ctime = formatter.format(new Date());
+		return null;
+	}
 
-	/**
+	/**处理JMX计划
 	 * 1、重命名JMX文件，ApiName_Vuser_ctime.jmx
 	 * 2、创建JMX文件
 	 * 3、复制模版文件到新的JMX文件中
 	 * 4、解析JMX文件，替换相应参数，保存JMX文件
 	 * 5、将绝对路径写入数据库（后期实现）
-	 * 6、返回JMX文件名称
+	 * 6、返回
 	 * 
 	 * @param JmxtempleName
 	 * @param BaseJmxPath
@@ -42,8 +49,8 @@ public class JMXHandle {
 	 * @param Vuser
 	 * @return JmxPlanName
 	 */
-	public void handleJmxFile(String ip, String port, String path, String param, String vuser) {
-		generatjmxfilename = path.replaceAll("/", "_") + "_" + vuser + "_" + ctime + ".jmx";
+	public boolean handleJmxFile(String JmxPlanTemple,String baseJmxPath,String JmxPlanName,String ip, String port, String path, String method,String parameters, String vuser,String assertion) {
+
 
 		/*
 		 * 替换Jmx模版中相关参数数据
@@ -51,11 +58,10 @@ public class JMXHandle {
 		 * 
 		 * 
 		 */
+		return true;
 	}
 
-	public String getGeneratjmxfilename() {
-		return generatjmxfilename;
-	}
+
 
 	//通过文件管道复制文件
 	public void fileChannelCopy(File s, File t) {

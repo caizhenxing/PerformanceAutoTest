@@ -44,6 +44,12 @@
 		<welcome-file>default.htm</welcome-file>
 		<welcome-file>default.jsp</welcome-file>
 	</welcome-file-list>
+	
+	<context-param>
+		<param-name>JmxPlanTemple</param-name>
+		<param-value>/Users/perfermance/JmeterTest/apache-jmeter-2.13/bin/baidu.jmx</param-value>
+	</context-param>
+	
 	<context-param>
 		<param-name>baseJmxPath</param-name>
 		<param-value>/Users/perfermance/JmeterTest/apache-jmeter-2.13/bin/</param-value>
