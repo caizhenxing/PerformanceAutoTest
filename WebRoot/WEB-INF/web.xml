@@ -13,25 +13,11 @@
 	<servlet>
 		<description>
 		</description>
-		<display-name>TestServlet1</display-name>
-		<servlet-name>TestServlet1</servlet-name>
-		<servlet-class>com.systoon.qc.servlet.TestServlet</servlet-class>
-	</servlet>
-	<servlet>
-		<description>
-		</description>
 		<display-name>TestServletContext</display-name>
 		<servlet-name>TestServletContext</servlet-name>
 		<servlet-class>com.systoon.qc.servlet.TestServletContext</servlet-class>
 	</servlet>
-	<servlet-mapping>
-		<servlet-name>TestServlet</servlet-name>
-		<url-pattern>/TestServlet</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>TestServlet1</servlet-name>
-		<url-pattern>/TestServlet1</url-pattern>
-	</servlet-mapping>
+
 	<servlet-mapping>
 		<servlet-name>TestServletContext</servlet-name>
 		<url-pattern>/Test</url-pattern>
