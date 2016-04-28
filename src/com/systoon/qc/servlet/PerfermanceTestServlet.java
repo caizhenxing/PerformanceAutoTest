@@ -7,6 +7,8 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,26 +27,39 @@ import com.systoon.qc.business.ExecuteJmeter;
 @WebServlet("/perfermanceTestServlet")
 public class PerfermanceTestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	private static final String LOADERIP1 = "172.28.16.150";
-	private static final String LOADERIP2 = "172.28.16.130";
-	
-	/*基本路径写入配置文件，从配置文件中读取
-	 * 
-	 */
-	// 基本路径
-	// private static final String basePath = "/root/";
-	private String baseJmeterPath = "/Users/perfermance/JmeterTest/apache-jmeter-2.13/bin/";
-	private String baseJMXPath = "/Users/perfermance/JmeterTest/apache-jmeter-2.13/bin/";
-	private String baseJtlPath = "/Users/perfermance/JmeterTest/apache-jmeter-2.13/bin/";
+	private String loaderIP1 = null;
+	private String loaderIP2 = null;
+	private String baseJmeterPath = null;
+	private String baseJMXPath = null;
+	private String baseJtlPath = null;
+    private String executeShellLogFile = null;
 
-	// 记录Shell执行状况的日志文件的位置(绝对路径)
-	private String executeShellLogFile = baseJmeterPath + "executeShell.log";
 
 
 	public PerfermanceTestServlet() {
 		super();
 
+	}
+	
+	public void init(ServletConfig servletconfig) throws ServletException{
+		ServletContext servletContext = servletconfig.getServletContext();
+		loaderIP1 = servletContext.getInitParameter("loaderIP1");
+		loaderIP2 = servletContext.getInitParameter("loaderIP2");
+		
+		/*基本路径写入配置文件，从配置文件中读取
+		 * 
+		 */
+		// 基本路径
+		// private static final String basePath = "/root/";
+		baseJmeterPath = servletContext.getInitParameter("baseJmeterPath");
+		baseJMXPath = servletContext.getInitParameter("baseJmeterPath");
+		baseJtlPath = servletContext.getInitParameter("baseJtlPath");
+		
+		// 记录Shell执行状况的日志文件的位置(绝对路径)
+		String executeShellLogFile = baseJmeterPath + "executeShell.log";
+		
+		System.out.println(loaderIP1 + baseJmeterPath + baseJMXPath + baseJtlPath);
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
