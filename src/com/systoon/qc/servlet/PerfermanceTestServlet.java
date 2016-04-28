@@ -145,9 +145,13 @@ public class PerfermanceTestServlet extends HttpServlet {
 		}
 		
 		// 执行jmeter命令(绝对路径)
+//		String jmeterRemoteExecute = baseJmeterPath + "jmeter.sh" 
+//									+ " -n -t " + baseJmxPath + JmxPlanName 
+//									+ " -l " + baseJtlPath + JtlResultName ;
+		
 		String jmeterRemoteExecute = baseJmeterPath + "jmeter.sh" 
-									+ " -n -t " + baseJmxPath + JmxPlanName 
-									+ " -l " + baseJtlPath + JtlResultName ;
+				+ " -n -t " + baseJmxPath + "baidu.jmx" 
+				+ " -l " + baseJtlPath + "1000.jtl" ;
 
 
 		/**
