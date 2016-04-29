@@ -58,6 +58,7 @@ public class JmeterPlanHandle {
 
 		/*1、复制一份测试计划*/
 		copyFile(JmxPlanTemple, JmxPlan);
+		System.out.println("文件已拷贝。。。。");
 		
 		/*2、解析JMX（xml）替换对应参数*/
 		

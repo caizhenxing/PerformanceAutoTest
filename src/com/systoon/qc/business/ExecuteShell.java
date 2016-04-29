@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class ExecuteShell {
 
-	/**
+	/**     待修改
 	 * logFile 参数的处理方式，需移动到 PrintLog中
 	 * 
 	 * @param shellCommand
