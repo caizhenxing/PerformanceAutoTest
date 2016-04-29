@@ -37,20 +37,10 @@ public class PerfermanceTestServlet extends HttpServlet {
 		String baseJmxPath = getServletContext().getInitParameter("baseJmxPath");
 		String baseJtlPath = getServletContext().getInitParameter("baseJtlPath");
 		String baseLogPath = getServletContext().getInitParameter("baseLogPath");
-		
-		/*如果目录不存在则创建目录*/
-		String[] basePaths = new String[4];
-		basePaths[0] = baseJmeterPath;
-		basePaths[1] = baseJmxPath;
-		basePaths[2] = baseJtlPath;
-		basePaths[3] = baseLogPath;
-		
-		for(int i = 0;i < basePaths.length; i++){
-			if(!new File(basePaths[i]).exists())
-				new File(basePaths[i]).mkdirs();
-		}
+
 
 		/**
+		 * （二期优化）传参格式变成json
 		 * 获取UI传递的参数
 		 * getParameter()  根据请求参数中的名字 “name”，获取参数值
 		 * getParameterValues(String name) 根据参数名，获取对应字符串数组
@@ -68,30 +58,33 @@ public class PerfermanceTestServlet extends HttpServlet {
 		 */
 		JmeterPlanHandle jph = new JmeterPlanHandle();
 		String jmxPlanName = jph.renameJmxPlan(path);
-//		String jtlResultName = jmxPlanName.substring(0, jmxPlanName.indexOf(".")) + ".jtl";
-//		String logFileName = jmxPlanName.substring(0, jmxPlanName.indexOf(".")) + ".log";
+		String jtlResultName = jmxPlanName.substring(0, jmxPlanName.indexOf(".")) + ".jtl";
+		String logFileName = jmxPlanName.substring(0, jmxPlanName.indexOf(".")) + ".log";
 		
-//		String logFile = baseLogPath + logFileName;
-		String logFile = "1.log";
+		String jmxPlan = baseJmxPath + jmxPlanName;
+		String jtlResult = baseJtlPath + jtlResultName;
+		String logFile = baseLogPath + logFileName;
+//		String logFile = "1.log";
 		
 		
 		/**
 		 * 处理JMX文件
+		 * （二期优化）将参数类型变成json
 		 */
-		if(!jph.handleJmxFile(jmxPlanTemple, path, assertion, ip, port, path, method, parameters, vuser, assertion)){
+		if(!jph.handleJmxFile(jmxPlanTemple,jmxPlan,ip, port, path, method, parameters, vuser, assertion)){
 			System.out.println("测试计划文件处理失败。。。。");
 		}else{
 			System.out.println("测试计划处理完成。。。。");
 		}
 		
 		// 执行jmeter命令(绝对路径)
-//		String jmeterRemoteExecute = baseJmeterPath + "jmeter.sh" 
-//									+ " -n -t " + baseJmxPath + jmxPlanName 
-//									+ " -l " + baseJtlPath + jtlResultName ;
-		
 		String jmeterRemoteExecute = baseJmeterPath + "jmeter.sh" 
-				+ " -n -t " + baseJmxPath + "baidu.jmx" 
-				+ " -l " + baseJtlPath + "1000.jtl" ;
+									+ " -n -t " + jmxPlan 
+									+ " -l " + jtlResult;
+		
+//		String jmeterRemoteExecute = baseJmeterPath + "jmeter.sh" 
+//				+ " -n -t " + baseJmxPath + "baidu.jmx" 
+//				+ " -l " + baseJtlPath + "1000.jtl" ;
 
 
 		/**
@@ -100,7 +93,7 @@ public class PerfermanceTestServlet extends HttpServlet {
 		
 		Process pid = null;
         try {
-            pid = new ExecuteShell().executeShell(jmeterRemoteExecute, logFile);
+            pid = new ExecuteShell().executeShell(jmeterRemoteExecute, logFile); 
         } catch (IOException e) {
             e.printStackTrace();
         }

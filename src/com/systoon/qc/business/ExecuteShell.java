@@ -13,6 +13,14 @@ import java.util.Date;
 
 public class ExecuteShell {
 
+	/**
+	 * logFile 参数的处理方式，需移动到 PrintLog中
+	 * 
+	 * @param shellCommand
+	 * @param executeShellLogFile
+	 * @return
+	 * @throws IOException
+	 */
 	public Process executeShell(String shellCommand, String executeShellLogFile) throws IOException {
 		System.out.println("shellCommand:" + shellCommand);
 
