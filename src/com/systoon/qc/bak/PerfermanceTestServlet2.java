@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.catalina.tribes.membership.StaticMember;
 
 import com.systoon.qc.business.ConvertJtlToHtml;
-import com.systoon.qc.business.ExecuteJmeter;
+import com.systoon.qc.business.ExecuteShell;
 
 /**
  * Servlet implementation class PerfermanceTestServlet
@@ -79,7 +79,7 @@ public class PerfermanceTestServlet2 extends HttpServlet {
 		/**
 		 * 后端调用shell ／ 批处理文件  执行 jmeter -n (no GUI)
 		 */
-		ExecuteJmeter ex = new ExecuteJmeter();
+		ExecuteShell ex = new ExecuteShell();
      	Process process = (Process)ex.executeShell(jmeterExe, jmxRealPlan);
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));

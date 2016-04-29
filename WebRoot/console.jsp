@@ -46,9 +46,10 @@
 		<p style="text-align:left">
 			<%     
 				Process process = (Process)request.getAttribute("process");
+				String logFile = (String)request.getAttribute("logFile");
 				PrintWriter printWriter = response.getWriter();
 				PrintLog pl = new PrintLog();
-				pl.printLog(process, out);
+				pl.printLog(process, out,logFile);
 			%>
 		
 		</p>

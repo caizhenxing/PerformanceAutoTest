@@ -11,7 +11,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ExecuteJmeter {
+public class ExecuteShell {
 
 	public Process executeShell(String shellCommand, String executeShellLogFile) throws IOException {
 		System.out.println("shellCommand:" + shellCommand);

@@ -18,39 +18,36 @@ public class JmeterPlanHandle {
 	public JmeterPlanHandle() {
 		super();
 	}
-	
-	public String renameJmxPlan(String path){
-		SimpleDateFormat formatter = new SimpleDateFormat("yyMMddHHmm");
-		String ctime = formatter.format(new Date());
-		return null;
-	}
-	
-	public String renameJtlResult(String path){
-		SimpleDateFormat formatter = new SimpleDateFormat("yyMMddHHmm");
-		String ctime = formatter.format(new Date());
-		return null;
-	}
 
-	/**处理JMX计划
-	 * 1、重命名JMX文件，ApiName_Vuser_ctime.jmx
-	 * 2、创建JMX文件
-	 * 3、复制模版文件到新的JMX文件中
-	 * 4、解析JMX文件，替换相应参数，保存JMX文件
-	 * 5、将绝对路径写入数据库（后期实现）
-	 * 6、返回
+	public String renameJmxPlan(String path) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyMMddHHmm");
+		String ctime = formatter.format(new Date());
+		return null;
+	}
+	
+
+
+	/**
+	 * 处理JMX计划 1、重命名JMX文件，ApiName_Vuser_ctime.jmx 2、创建JMX文件 3、复制模版文件到新的JMX文件中
+	 * 4、解析JMX文件，替换相应参数，保存JMX文件 5、将绝对路径写入数据库（后期实现） 6、返回
 	 * 
 	 * @param JmxtempleName
 	 * @param BaseJmxPath
-	 * @param Url (web server:ip:port)
-	 * @param Api (path)
-	 * @param Arguments (parameters/body data)
-	 * @param Method (get/post)
-	 * @param Assertion (string)
+	 * @param Url
+	 *            (web server:ip:port)
+	 * @param Api
+	 *            (path)
+	 * @param Arguments
+	 *            (parameters/body data)
+	 * @param Method
+	 *            (get/post)
+	 * @param Assertion
+	 *            (string)
 	 * @param Vuser
 	 * @return JmxPlanName
 	 */
-	public boolean handleJmxFile(String JmxPlanTemple,String baseJmxPath,String JmxPlanName,String ip, String port, String path, String method,String parameters, String vuser,String assertion) {
-
+	public boolean handleJmxFile(String JmxPlanTemple, String baseJmxPath, String JmxPlanName, String ip, String port,
+			String path, String method, String parameters, String vuser, String assertion) {
 
 		/*
 		 * 替换Jmx模版中相关参数数据
@@ -61,9 +58,7 @@ public class JmeterPlanHandle {
 		return true;
 	}
 
-
-
-	//通过文件管道复制文件
+	// 通过文件管道复制文件
 	public void fileChannelCopy(File s, File t) {
 
 		FileInputStream fi = null;
@@ -88,27 +83,26 @@ public class JmeterPlanHandle {
 				e.printStackTrace();
 			}
 		}
-		
 
 	}
-	
-	//通过文件输入输出流复制文件
-	public void copy(File s,File t){
+
+	// 通过文件输入输出流复制文件
+	public void copy(File s, File t) {
 		InputStream fis = null;
 		OutputStream fos = null;
-		
+
 		try {
 			fis = new BufferedInputStream(new FileInputStream(s));
 			fos = new BufferedOutputStream(new FileOutputStream(t));
 			byte[] buf = new byte[1024];
 			int i = 0;
-			while((i = fis.read(buf)) != -1){
+			while ((i = fis.read(buf)) != -1) {
 				fos.write(buf, 0, i);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}finally{
+		} finally {
 			try {
 				fos.close();
 				fis.close();
@@ -117,7 +111,6 @@ public class JmeterPlanHandle {
 				e.printStackTrace();
 			}
 		}
-	}	
-	
+	}
 
 }
