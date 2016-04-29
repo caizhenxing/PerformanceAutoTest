@@ -1,5 +1,6 @@
 package com.systoon.qc.servlet;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -25,7 +26,7 @@ public class PerfermanceTestServlet extends HttpServlet {
 	}
 	
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		/**
 		 * 获取配置文件基本参数
 		 */
@@ -36,6 +37,18 @@ public class PerfermanceTestServlet extends HttpServlet {
 		String baseJmxPath = getServletContext().getInitParameter("baseJmxPath");
 		String baseJtlPath = getServletContext().getInitParameter("baseJtlPath");
 		String baseLogPath = getServletContext().getInitParameter("baseLogPath");
+		
+		/*如果目录不存在则创建目录*/
+		String[] basePaths = new String[4];
+		basePaths[0] = baseJmeterPath;
+		basePaths[1] = baseJmxPath;
+		basePaths[2] = baseJtlPath;
+		basePaths[3] = baseLogPath;
+		
+		for(int i = 0;i < basePaths.length; i++){
+			if(!new File(basePaths[i]).exists())
+				new File(basePaths[i]).mkdirs();
+		}
 
 		/**
 		 * 获取UI传递的参数
@@ -97,6 +110,11 @@ public class PerfermanceTestServlet extends HttpServlet {
 		request.setAttribute("logFile", logFile);
 		request.getRequestDispatcher("console.jsp").forward(request, response);
 
+	}
+	
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
 	}
 
 

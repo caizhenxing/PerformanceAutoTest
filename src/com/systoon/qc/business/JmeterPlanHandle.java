@@ -22,7 +22,7 @@ public class JmeterPlanHandle {
 	public String renameJmxPlan(String path) {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyMMddHHmm");
 		String ctime = formatter.format(new Date());
-		return null;
+		return path.substring(1, path.length()).replace('/', '_') + "_" + ctime + ".jmx";
 	}
 	
 
@@ -49,12 +49,8 @@ public class JmeterPlanHandle {
 	public boolean handleJmxFile(String JmxPlanTemple, String baseJmxPath, String JmxPlanName, String ip, String port,
 			String path, String method, String parameters, String vuser, String assertion) {
 
-		/*
-		 * 替换Jmx模版中相关参数数据
-		 * 
-		 * 
-		 * 
-		 */
+		/*1、复制一份测试计划*/
+		
 		return true;
 	}
 
@@ -87,30 +83,10 @@ public class JmeterPlanHandle {
 	}
 
 	// 通过文件输入输出流复制文件
-	public void copy(File s, File t) {
-		InputStream fis = null;
-		OutputStream fos = null;
 
-		try {
-			fis = new BufferedInputStream(new FileInputStream(s));
-			fos = new BufferedOutputStream(new FileOutputStream(t));
-			byte[] buf = new byte[1024];
-			int i = 0;
-			while ((i = fis.read(buf)) != -1) {
-				fos.write(buf, 0, i);
-			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} finally {
-			try {
-				fos.close();
-				fis.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+	
+	public static void main(String[] args) {
+		System.out.println(new JmeterPlanHandle().renameJmxPlan("/user/login"));
 	}
 
 }
