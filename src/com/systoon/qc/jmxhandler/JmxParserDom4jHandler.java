@@ -16,8 +16,13 @@ import org.junit.Test;
 
 public class JmxParserDom4jHandler {
 
-	public void createJmxPlan(String jmxPlanTemple, String jmxPlan, String ip, String port, String path,
-			String method, String parameters, String vuser, String assertion) {
+//	public static void main(String[] args) {
+//		new JmxParserDom4jHandler().createJmxPlan("1.xml", "2.xml", "localhost", "8080", "/usr/login", "post",
+//				"usr=root&passwd=123456", "100", "return 0");
+//	}
+
+	public void createJmxPlan(String jmxPlanTemple, String jmxPlan, String ip, String port, String path, String method,
+			String parameters, String vuser, String assertion) {
 
 		SAXReader saxReader = null;
 		Document doc = null;
@@ -25,7 +30,7 @@ public class JmxParserDom4jHandler {
 
 			saxReader = new SAXReader();
 			doc = saxReader.read(new File(jmxPlanTemple));
-			
+
 			System.out.println("开始生成JmxPlan文件......");
 
 			// 1、替换 并发用户数 Vuser
@@ -110,8 +115,8 @@ public class JmxParserDom4jHandler {
 
 		} catch (IOException e) {
 			e.printStackTrace();
-		} finally{
-			
+		} finally {
+
 		}
 
 	}
