@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.systoon.qc.business.ExecuteShell;
-import com.systoon.qc.business.JmeterPlanHandle;
+import com.systoon.qc.jmxhandler.*;
 
 /**
  * Servlet implementation class PerfermanceTestServlet
@@ -56,8 +56,8 @@ public class PerfermanceTestServlet extends HttpServlet {
 		/**
 		 * 重命名 Jmeter 计划文件，结果文件
 		 */
-		JmeterPlanHandle jph = new JmeterPlanHandle();
-		String jmxPlanName = jph.renameJmxPlan(path);
+		JmxFileHander jmxFileHander = new JmxFileHander();
+		String jmxPlanName = jmxFileHander.renameJmxPlan(path);
 		String jtlResultName = jmxPlanName.substring(0, jmxPlanName.indexOf(".")) + ".jtl";
 		String logFileName = jmxPlanName.substring(0, jmxPlanName.indexOf(".")) + ".log";
 		
@@ -66,16 +66,18 @@ public class PerfermanceTestServlet extends HttpServlet {
 		String logFile = baseLogPath + logFileName;
 //		String logFile = "1.log";
 		
+		System.out.println(jmxPlan);
+		System.out.println(jtlResult);
+		System.out.println(logFile);
+		System.out.println(jmxPlanTemple);
+		
 		
 		/**
-		 * 处理JMX文件
+		 * 生成JMX计划文件
 		 * （二期优化）将参数类型变成json
 		 */
-		if(!jph.handleJmxFile(jmxPlanTemple,jmxPlan,ip, port, path, method, parameters, vuser, assertion)){
-			System.out.println("测试计划文件处理失败。。。。");
-		}else{
-			System.out.println("测试计划处理完成。。。。");
-		}
+		new JmxParserDom4jHandler().createJmxPlan(jmxPlanTemple, jmxPlan, ip, port, path, method, parameters, vuser, assertion);
+
 		
 		// 执行jmeter命令(绝对路径)
 		String jmeterRemoteExecute = baseJmeterPath + "jmeter.sh" 
@@ -93,7 +95,7 @@ public class PerfermanceTestServlet extends HttpServlet {
 		
 		Process pid = null;
         try {
-            pid = new ExecuteShell().executeShell(jmeterRemoteExecute, logFile); 
+            pid = new ExecuteShell().executeShell(jmeterRemoteExecute); 
         } catch (IOException e) {
             e.printStackTrace();
         }

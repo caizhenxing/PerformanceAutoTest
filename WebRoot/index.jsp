@@ -9,13 +9,15 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>PerformanceTestPlatform</title>
 <style type="text/css">
-div {
-	width: 40%;
+#menu {
+	width: 80%;
 	height: 800px;
 	background:;
-	margin: 10px;
+	margin-left:auto;
+	margin-right:auto;
 	border: 1px solid black;
-	float: left;
+	
+	/* float: left; */
 	/* overflow: auto; */
 }
 
@@ -49,7 +51,7 @@ textarea{
 
 #btn{
 	border:0px;
-	padding:0px 40%;
+	padding:0px 48%;
 }
 
 
@@ -100,9 +102,6 @@ textarea{
 		</form>
 	</div>
 
-	<div id=log>
-		<iframe src="console.jsp"></iframe>
-	</div>
 
 
 </body>

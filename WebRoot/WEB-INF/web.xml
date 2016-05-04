@@ -7,9 +7,9 @@
 	<servlet>
 		<description>
 		</description>
-		<display-name>TestServletContext</display-name>
+		<!-- <display-name>TestServletContext</display-name> -->
 		<servlet-name>TestServletContext</servlet-name>
-		<servlet-class>com.systoon.qc.servlet.TestServletContext</servlet-class>
+		<servlet-class>com.systoon.qc.bak.TestServletContext</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
@@ -27,7 +27,7 @@
 	</welcome-file-list>
 	
 	<context-param>
-		<param-name>JmxPlanTemple</param-name>
+		<param-name>jmxPlanTemple</param-name>
 		<param-value>/Users/perfermance/JmeterTest/apache-jmeter-2.13/bin/baidu.jmx</param-value>
 	</context-param>
 	

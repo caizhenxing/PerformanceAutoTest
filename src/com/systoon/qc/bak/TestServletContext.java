@@ -24,6 +24,7 @@ public class TestServletContext extends HttpServlet {
 	public void init() throws ServletException {
 		/**
 		 * 通过getResource,getResourceAsStream 获取文件
+		 * 默认路径：/Users/perfermance/Workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/PerformanceAutoTest
 		 */
 
 		System.out.println("********" + getServletContext().getContextPath());

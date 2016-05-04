@@ -21,7 +21,7 @@ public class ExecuteShell {
 	 * @return
 	 * @throws IOException
 	 */
-	public Process executeShell(String shellCommand, String executeShellLogFile) throws IOException {
+	public Process executeShell(String shellCommand) throws IOException {
 		System.out.println("shellCommand:" + shellCommand);
 
 		// 格式化日期时间，记录日志时使用
@@ -47,21 +47,7 @@ public class ExecuteShell {
 		} catch (Exception ioe) {
 			stringBuffer.append("执行Shell命令时发生异常：\r\n").append(ioe.getMessage()).append("\r\n");
 		} finally {
-			if (stringBuffer != null) {
-				OutputStreamWriter outputStreamWriter = null;
-				try {
-					
-					// 将Shell的执行情况输出到日志文件中
-					OutputStream outputStream = new FileOutputStream(executeShellLogFile);
-					outputStreamWriter = new OutputStreamWriter(outputStream, "UTF-8");
-					outputStreamWriter.write(stringBuffer.toString());
-					System.out.println("stringBuffer.toString():" + stringBuffer.toString());
-				} catch (Exception e) {
-					e.printStackTrace();
-				} finally {
-					outputStreamWriter.close();
-				}
-			}
+			
 		
 		}
 		return pid;

@@ -11,7 +11,7 @@
 <style type="text/css">
 			div{
 				width:80%;
-				height:80%;
+				height:800px;
 				background:;
 				margin:10px auto;
 				border: 1px solid black;
@@ -38,11 +38,7 @@
 <body>
 	<div >
 		<h2 style="text-align:left">控制台输出</h2>
-		<h5 style="text-align:left">请求地址：
-			<%
-				out.println(request.getAttribute("url"));
-			%>
-		</h5>
+
 		<p style="text-align:left">
 			<%     
 				Process process = (Process)request.getAttribute("process");
