@@ -10,15 +10,22 @@
 <title>PerformanceTestPlatform</title>
 <style type="text/css">
 #menu {
-	width: 80%;
+	width: 70%;
 	height: 800px;
 	background:;
 	margin-left:auto;
 	margin-right:auto;
+
 	border: 1px solid black;
 	
 	/* float: left; */
 	/* overflow: auto; */
+}
+
+fieldset{
+	margin-left:auto;
+	margin-right:auto;
+	width:90%	
 }
 
 textarea{
@@ -27,17 +34,11 @@ textarea{
 	
 }
 
-#log span {
-	color: #000;
-	font-size: 10px;
-	font-stretch: strong;
+h4{
+	padding:0px 30px;
 }
 
-#log p {
-	color: red;
-	font-size: 10px;
-	font-stretch: strong;
-}
+
 #submitbtn {
 	font-size: 18px;
     text-align: center;
