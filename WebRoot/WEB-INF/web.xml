@@ -27,18 +27,28 @@
 	</welcome-file-list>
 	
 	<context-param>
+		<param-name>xslTemple</param-name>
+		<param-value>/Users/perfermance/JmeterTest/apache-jmeter-2.13/extras/jmeter-results-detail-report_21.xsl</param-value>
+	</context-param>
+	
+	<context-param>
 		<param-name>jmxPlanTemple</param-name>
-		<param-value>/Users/perfermance/JmeterTest/apache-jmeter-2.13/bin/baidu.jmx</param-value>
+		<param-value>/Users/perfermance/JmeterTest/script/jmxPlanTemple.jmx</param-value>
 	</context-param>
 	
 	<context-param>
 		<param-name>baseJmxPath</param-name>
-		<param-value>/Users/perfermance/JmeterTest/apache-jmeter-2.13/bin/</param-value>
+		<param-value>/Users/perfermance/JmeterTest/script/</param-value>
 	</context-param>
 
 	<context-param>
 		<param-name>baseJtlPath</param-name>
-		<param-value>/Users/perfermance/JmeterTest/apache-jmeter-2.13/bin/</param-value>
+		<param-value>/Users/perfermance/JmeterTest/results/jtl/</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>baseHtmlPath</param-name>
+		<param-value>/Users/perfermance/JmeterTest/results/html/</param-value>
 	</context-param>
 
 	<context-param>
@@ -48,7 +58,7 @@
 
 	<context-param>
 		<param-name>baseLogPath</param-name>
-		<param-value>/Users/perfermance/JmeterTest/apache-jmeter-2.13/bin/</param-value>
+		<param-value>/Users/perfermance/JmeterTest/log/</param-value>
 	</context-param>
 
 	<context-param>

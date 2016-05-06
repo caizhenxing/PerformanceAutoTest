@@ -32,10 +32,12 @@ public class PerfermanceTestServlet extends HttpServlet {
 		 */
 		String loaderIP1 = getServletContext().getInitParameter("loaderIP1");
 		String loaderIP2 = getServletContext().getInitParameter("loaderIP2");
+		String xslTemple = getServletContext().getInitParameter("xslTemple");
 		String jmxPlanTemple = getServletContext().getInitParameter("jmxPlanTemple");
 		String baseJmeterPath = getServletContext().getInitParameter("baseJmeterPath");
 		String baseJmxPath = getServletContext().getInitParameter("baseJmxPath");
 		String baseJtlPath = getServletContext().getInitParameter("baseJtlPath");
+		String baseHtmlPath = getServletContext().getInitParameter("baseHtmlPath");
 		String baseLogPath = getServletContext().getInitParameter("baseLogPath");
 
 
@@ -59,15 +61,18 @@ public class PerfermanceTestServlet extends HttpServlet {
 		JmxFileHander jmxFileHander = new JmxFileHander();
 		String jmxPlanName = jmxFileHander.renameJmxPlan(path);
 		String jtlResultName = jmxPlanName.substring(0, jmxPlanName.indexOf(".")) + ".jtl";
+		String htmlReportName = jmxPlanName.substring(0, jmxPlanName.indexOf(".")) + ".html";
 		String logFileName = jmxPlanName.substring(0, jmxPlanName.indexOf(".")) + ".log";
 		
 		String jmxPlan = baseJmxPath + jmxPlanName;
 		String jtlResult = baseJtlPath + jtlResultName;
+		String HtmlReport = baseHtmlPath + htmlReportName;
 		String logFile = baseLogPath + logFileName;
-//		String logFile = "1.log";
+
 		
 		System.out.println(jmxPlan);
 		System.out.println(jtlResult);
+		System.out.println(HtmlReport);
 		System.out.println(logFile);
 		System.out.println(jmxPlanTemple);
 		
