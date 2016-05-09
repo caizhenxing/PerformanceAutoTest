@@ -24,11 +24,11 @@ import java.io.IOException;
 
 public class ConvertJtlToHtml {
 
-	public void convertJtlToHtml(String jtlResult, String xslTemlpe, String htmlReport) {
+	public boolean convertJtlToHtml(String jtlResult, String xslTemple, String htmlReport) {
 
 		try {
 			// 1、将xslTemple 文件转换为 streamSource 类
-			StreamSource streamSource = new StreamSource(new File(xslTemlpe));
+			StreamSource streamSource = new StreamSource(new File(xslTemple));
 
 			// 2、将jtlResult（xml）文件转换为 document 类
 			SAXReader saxReader = new SAXReader();
@@ -51,28 +51,23 @@ public class ConvertJtlToHtml {
 			XMLWriter writer = new XMLWriter(new FileWriter(new File(htmlReport)));
 			writer.write(htmlDoc);
 			writer.close();
+			
 
 			System.out.println("用xslt转换xml文件成功!");
 
-		} catch (IOException e) {
+			return true;
+
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (TransformerConfigurationException e) {
-			e.printStackTrace();
-		} catch (TransformerFactoryConfigurationError e) {
-			e.printStackTrace();
-		} catch (DocumentException e) {
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			e.printStackTrace();
-		}
-
+			return false;
+		} 
 	}
 
 	public static void main(String[] args) {
 		new ConvertJtlToHtml().convertJtlToHtml(
 				"/Users/perfermance/JmeterTest/results/jtl/saveOperInfo_ok_20161526.jtl",
-				"/Users/perfermance/JmeterTest/apache-jmeter-2.13/extras/jmeter-results-detail-report_21.xsl",
+				"/Users/perfermance/JmeterTest/apache-jmeter-2.13/extras/jmeter-results-report_21.xsl",
 				"/Users/perfermance/JmeterTest/results/html/saveOperInfo_ok_20161526.html");
 	}
 

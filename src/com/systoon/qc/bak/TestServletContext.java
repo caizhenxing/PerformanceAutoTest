@@ -1,5 +1,6 @@
 package com.systoon.qc.bak;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -35,6 +36,17 @@ public class TestServletContext extends HttpServlet {
 			System.out
 					.println("!!!!" + getServletContext().getResourceAsStream("/WEB-INF/classes/filepath.properties"));
 			System.out.println("!!!!" + getServletContext().getResourceAsStream("/web.xml"));
+			
+			
+			System.out.println(Thread.currentThread().getContextClassLoader().getResource("").toURI().getPath());
+			System.out.println(this.getClass().getClassLoader().getResource("").toURI().getPath());
+			System.out.println(ClassLoader.getSystemResource("").toURI().getPath());
+			System.out.println(this.getClass().getResource("").toURI().getPath());
+			System.out.println(this.getClass().getResource("/").toURI().getPath());
+//			System.out.println(new File("/").getAbsolutePath().toURI().getPath());
+//			System.out.println(System.getProperty("user.dir").toURI().getPath());
+			System.out.println();
+
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

@@ -15,8 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.catalina.tribes.membership.StaticMember;
 
-import com.systoon.qc.business.ConvertJtlToHtml;
+
 import com.systoon.qc.business.ExecuteShell;
+import com.systoon.qc.jtlhandle.ConvertJtlToHtml;
 
 /**
  * Servlet implementation class PerfermanceTestServlet
@@ -80,7 +81,7 @@ public class PerfermanceTestServlet2 extends HttpServlet {
 		 * 后端调用shell ／ 批处理文件  执行 jmeter -n (no GUI)
 		 */
 		ExecuteShell ex = new ExecuteShell();
-     	Process process = (Process)ex.executeShell(jmeterExe, jmxRealPlan);
+     	Process process = (Process)ex.executeShell(jmeterExe);
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(process.getInputStream()));
 		String msg = null;
@@ -117,10 +118,7 @@ public class PerfermanceTestServlet2 extends HttpServlet {
 		 * 转换jtl 到 html
 		 */
 		ConvertJtlToHtml jtoh = new ConvertJtlToHtml();
-		jtoh.convert(jtlResult,htmlResult);
-		
-	
-		out.print("报告地址" + jtoh.getReportUrl());
+
 		
 		
 		

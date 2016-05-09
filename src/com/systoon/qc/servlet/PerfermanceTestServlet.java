@@ -66,13 +66,18 @@ public class PerfermanceTestServlet extends HttpServlet {
 		
 		String jmxPlan = baseJmxPath + jmxPlanName;
 		String jtlResult = baseJtlPath + jtlResultName;
-		String HtmlReport = baseHtmlPath + htmlReportName;
+		String htmlReport = baseHtmlPath + htmlReportName;
 		String logFile = baseLogPath + logFileName;
+		
+		String methods = request.getParameter("methods");
+		System.out.println("***************");
+		System.out.println(methods);
+		System.out.println("***************");
 
 		
 		System.out.println(jmxPlan);
 		System.out.println(jtlResult);
-		System.out.println(HtmlReport);
+		System.out.println(htmlReport);
 		System.out.println(logFile);
 		System.out.println(jmxPlanTemple);
 		
@@ -116,6 +121,9 @@ public class PerfermanceTestServlet extends HttpServlet {
 
 		request.setAttribute("process", pid);
 		request.setAttribute("logFile", logFile);
+		request.setAttribute("jtlResult", jtlResult);
+		request.setAttribute("htmlReport", htmlReport);
+		request.setAttribute("htmlReportName", htmlReportName);
 		request.getRequestDispatcher("console.jsp").forward(request, response);
 
 	}

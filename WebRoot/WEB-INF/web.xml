@@ -28,12 +28,13 @@
 	
 	<context-param>
 		<param-name>xslTemple</param-name>
-		<param-value>/Users/perfermance/JmeterTest/apache-jmeter-2.13/extras/jmeter-results-detail-report_21.xsl</param-value>
+		<param-value>/Users/perfermance/JmeterTest/apache-jmeter-2.13/extras/jmeter-results-report_21.xsl</param-value>
 	</context-param>
 	
 	<context-param>
 		<param-name>jmxPlanTemple</param-name>
-		<param-value>/Users/perfermance/JmeterTest/script/jmxPlanTemple.jmx</param-value>
+	<!-- 	<param-value>/Users/perfermance/JmeterTest/script/jmxPlanTemple.jmx</param-value> -->
+		<param-value>/Users/perfermance/JmeterTest/script/saveOperInfo_ok.jmx</param-value>
 	</context-param>
 	
 	<context-param>

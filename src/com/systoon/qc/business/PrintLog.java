@@ -15,7 +15,7 @@ import javax.servlet.jsp.JspWriter;
 public class PrintLog {
 	
 	
-	public void printLog(Process pid,JspWriter out,String logFile) throws IOException{
+	public void printLog(Process pid,JspWriter out,String logFile) throws IOException, InterruptedException{
 		if(pid != null){
 			out.print("进程号：" + pid + "\r\n");
 			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(pid.getInputStream()),1024);
@@ -28,7 +28,7 @@ public class PrintLog {
 			            && (msg = bufferedReader.readLine()) != null){
 					/*打印日志到控制台*/
 					out.println("<span>" + msg + "<span>");
-					out.println("<br>");
+					out.println("<br><br>");
 					out.flush();
 					/*写入到日志文件*/
 					stringBuffer.append( msg + "\r\n");

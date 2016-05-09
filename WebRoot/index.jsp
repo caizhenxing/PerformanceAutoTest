@@ -63,7 +63,7 @@ h4{
 <body>
 	<div id=menu>
 		<h2 style="text-align: center">自动化性能测试平台</h2>
-		<form action="perfermanceTestServlet" method="post">
+		<form action="perfermanceTestServlet?methods=add" method="post">
 			<h4>HTTP Requtest</h4>
 			<fieldset>
 			<legend>Web Server:</legend>
@@ -85,6 +85,8 @@ h4{
 			<h4>Thread Properties</h4>
 			<fieldset>
 			<legend>Number of Threads(users)</legend>
+			<input type="radio" name="vuser" value="10">10 
+			<input type="radio" name="vuser" value="50">50 
 			<input type="radio" name="vuser" value="100">100 
 			<input type="radio" name="vuser" value="200">200 
 			<input type="radio" name="vuser" value="500">500 
