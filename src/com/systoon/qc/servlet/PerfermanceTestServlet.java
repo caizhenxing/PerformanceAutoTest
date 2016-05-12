@@ -124,7 +124,7 @@ public class PerfermanceTestServlet extends HttpServlet {
 		request.setAttribute("jtlResult", jtlResult);
 		request.setAttribute("htmlReport", htmlReport);
 		request.setAttribute("htmlReportName", htmlReportName);
-		request.getRequestDispatcher("console2.jsp").forward(request, response);
+		request.getRequestDispatcher("console.jsp").forward(request, response);
 
 	}
 	
