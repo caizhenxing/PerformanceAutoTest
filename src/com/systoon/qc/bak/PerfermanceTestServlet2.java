@@ -17,7 +17,7 @@ import org.apache.catalina.tribes.membership.StaticMember;
 
 
 import com.systoon.qc.business.ExecuteShell;
-import com.systoon.qc.jtlhandle.ConvertJtlToHtml;
+import com.systoon.qc.jtlhandle.ConvertXmlToHtml;
 
 /**
  * Servlet implementation class PerfermanceTestServlet
@@ -117,7 +117,7 @@ public class PerfermanceTestServlet2 extends HttpServlet {
 		/**
 		 * 转换jtl 到 html
 		 */
-		ConvertJtlToHtml jtoh = new ConvertJtlToHtml();
+		ConvertXmlToHtml jtoh = new ConvertXmlToHtml();
 
 		
 		

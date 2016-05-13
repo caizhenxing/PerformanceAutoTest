@@ -1,4 +1,4 @@
-<%@page import="com.systoon.qc.jtlhandle.ConvertJtlToHtml"%>
+<%@page import="com.systoon.qc.jtlhandle.ConvertXmlToHtml"%>
 <%@page import="java.io.PrintWriter"%>
 <%@page import="com.systoon.qc.business.PrintLog"%>
 <%@page import="org.apache.tomcat.jni.ProcErrorCallback"%>
@@ -83,7 +83,7 @@ p {
 			<%
 				out.println("正在生成测试结果。。。。");
 
-				if(new ConvertJtlToHtml().convertJtlToHtml(jtlResult, xslTemple, htmlReport)){
+				if(new ConvertXmlToHtml().convertJtlToHtml(jtlResult, xslTemple, htmlReport)){
 			%>		
 					<br><br>
 				<%
