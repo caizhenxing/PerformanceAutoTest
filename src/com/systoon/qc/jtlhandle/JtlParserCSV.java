@@ -2,20 +2,15 @@ package com.systoon.qc.jtlhandle;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
-import org.junit.Test;
-
-import com.sun.corba.se.impl.io.InputStreamHook;
 
 /**
  * 解析CSV文件
@@ -25,95 +20,35 @@ import com.sun.corba.se.impl.io.InputStreamHook;
  */
 public class JtlParserCSV {
 
-	@Test
-	public JtlSummaryResult jtlParser(String jtlResultFile) {
+	public Map<String, JtlSummaryResult> jtlParser(String jtlResultFile) {
 
-		long startTime = 0;
-		long endTime = 0;
-		double elapsedTime = 0;
-		long minResponseTime = 0;
-		long maxResponseTime = 0;
-		long sumResponseTime = 0;
-		long averageResponseTime = 0;
-		long sumSampleCounters = 0;
-		double errorCounters = 0;
-		double sumBytes = 0;
-		String errorPercentage;
-		String throughputPerSec; // 单位：每秒
-		String throughputPerMin; // 单位：每分
-		String bytesPerSec;
-		String averagebytes;
+		JtlSummaryResult SummaryResult = new JtlSummaryResult();
+		Map<String, JtlSummaryResult> jtlSummaryResultMap = new HashMap<String, JtlSummaryResult>();
+		jtlSummaryResultMap.put("Summary", SummaryResult);
+		
+		double startTime = 0;
+		double endTime = 0;
 
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(new File(jtlResultFile)));
 			String msg = null;
 			while ((msg = br.readLine()) != null) {
-				// 1、统计请求数量
-				sumSampleCounters++;
 				String[] results = msg.split(",");
-
-				// 2、标记压测总时间
+				// 1、标记压测总时间
 				if (startTime == 0) {
 					startTime = Long.parseLong(results[0]);
 				}
 				endTime = Long.parseLong(results[0]);
-
-				// 3、纪录响应时间(最大，最小，总)
-				sumResponseTime += Long.parseLong(results[1]);
-
-				if (minResponseTime == 0) {
-					minResponseTime = Long.parseLong(results[1]);
-				}
-
-				if (Long.parseLong(results[1]) < minResponseTime) {
-					minResponseTime = Long.parseLong(results[1]);
-				}
-
-				if (Long.parseLong(results[1]) > maxResponseTime) {
-					maxResponseTime = Long.parseLong(results[1]);
-				}
-
-				// 4、统计错误数
-				Integer responseCode = 0;
-				try {
-					responseCode = Integer.parseInt(results[3]);
-				} catch (Exception e) {
-					// e.printStackTrace();
-				}
 				
-				if (responseCode / 100 != 2 || Boolean.parseBoolean(results[7]) == false) {
-					errorCounters++;
-				}
-				
-				// 5、统计网络流量（请求的）
-				sumBytes += Double.parseDouble(results[8]);
-
+				jtlResultLogHandler(jtlSummaryResultMap, results);
 			}
 
 			// 计算
-			// 1、吞吐量
-			NumberFormat formatter = new DecimalFormat("0.00");
-			elapsedTime = endTime - startTime;  //秒
-			throughputPerSec = formatter.format(sumSampleCounters / (elapsedTime / 1000));
-			throughputPerMin = formatter.format(sumSampleCounters / (elapsedTime / 1000 / 60));
 
-			// 2、平均响应时间
-			averageResponseTime = sumResponseTime / sumSampleCounters;
+			calculateResult(jtlSummaryResultMap, startTime, endTime);
 
-			// 3、错误率
-			NumberFormat nt = NumberFormat.getPercentInstance();
-			nt.setMinimumFractionDigits(2);
-			errorPercentage = nt.format(errorCounters / sumSampleCounters);
-
-			// 4、流量
-			bytesPerSec = formatter.format(sumBytes / (elapsedTime / 1000) / 1024);  //返回 KB/sec
-			averagebytes = formatter.format(sumBytes / sumSampleCounters);
-
-			JtlSummaryResult jtlSummaryResult = new JtlSummaryResult(minResponseTime, maxResponseTime,
-					averageResponseTime, sumSampleCounters, errorPercentage, throughputPerSec, throughputPerMin,
-					bytesPerSec, averagebytes);
-			return jtlSummaryResult;
+			return jtlSummaryResultMap;
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -129,5 +64,141 @@ public class JtlParserCSV {
 		}
 		return null;
 	}
+
+	private void calculateResult(Map<String, JtlSummaryResult> jtlSummaryResultMap, double startTime, double endTime) {
+		double elapsedTime;
+		JtlSummaryResult jtlSummaryResult = null;
+		JtlSummaryResult summaryResult = jtlSummaryResultMap.get("Summary");
+		NumberFormat formatter = new DecimalFormat("0.00"); // 设置精度
+		elapsedTime = endTime - startTime; // 毫秒
+		NumberFormat nt = NumberFormat.getPercentInstance();
+		nt.setMinimumFractionDigits(2);
+
+		Set<String> set = jtlSummaryResultMap.keySet();
+		for (Object obj : set) {
+
+			jtlSummaryResult = jtlSummaryResultMap.get(obj);
+
+			// 1、label对象的吞吐量
+			jtlSummaryResult.setThroughputPerSec(
+					formatter.format(jtlSummaryResult.getSumSampleCounters() / (elapsedTime / 1000)));
+			jtlSummaryResult.setThroughputPerMin(
+					formatter.format(jtlSummaryResult.getSumSampleCounters() / (elapsedTime / 1000 / 60)));
+
+			// 2、label对象的平均响应时间
+			jtlSummaryResult.setAverageResponseTime(
+					jtlSummaryResult.getSumResponseTime() / jtlSummaryResult.getSumSampleCounters());
+
+			// 3、label对象的错误率
+			jtlSummaryResult.setErrorPercentage(
+					nt.format(jtlSummaryResult.getErrorCounters() / jtlSummaryResult.getSumSampleCounters()));
+
+			// 4、label对象的流量
+			jtlSummaryResult
+					.setBytesPerSec(formatter.format(jtlSummaryResult.getSumBytes() / (elapsedTime / 1000) / 1024));
+
+			jtlSummaryResult.setAveragebytes(
+					formatter.format(jtlSummaryResult.getSumBytes() / jtlSummaryResult.getSumSampleCounters()));
+
+			// 5、计算总的最大最小响应时间
+			if (jtlSummaryResult.getMinResponseTime() < summaryResult.getMinResponseTime()) {
+				summaryResult.setMinResponseTime(jtlSummaryResult.getMinResponseTime());
+			}
+
+			if (jtlSummaryResult.getMaxResponseTime() > summaryResult.getMaxResponseTime()) {
+				summaryResult.setMaxResponseTime(jtlSummaryResult.getMaxResponseTime());
+			}
+
+		}
+
+		// 1、总吞吐量
+		summaryResult.setThroughputPerSec(formatter.format(summaryResult.getSumSampleCounters() / (elapsedTime / 1000)));
+		summaryResult.setThroughputPerMin(formatter.format(summaryResult.getSumSampleCounters() / (elapsedTime / 1000 / 60)));
+
+		// 2、平均响应时间
+		summaryResult.setAverageResponseTime(summaryResult.getSumResponseTime() / summaryResult.getSumSampleCounters());
+
+		// 3、错误率（总）
+		summaryResult.setErrorPercentage(nt.format(summaryResult.getErrorCounters() / summaryResult.getSumSampleCounters())); 
+
+		// 4、流量(总)
+		summaryResult.setBytesPerSec(formatter.format(summaryResult.getSumBytes() / (elapsedTime / 1000) / 1024));  // 返回
+		// KB/sec
+		summaryResult.setAveragebytes(formatter.format(summaryResult.getSumBytes()  / summaryResult.getSumSampleCounters()));
+	}
+
+	private void jtlResultLogHandler(Map<String, JtlSummaryResult> jtlSummaryResultMap, String[] results) {
+		String label;
+		long minResponseTime = 0;
+		JtlSummaryResult jtlSummaryResult = null;
+		JtlSummaryResult summaryResult = null;
+		
+		label = results[2];
+		if (!jtlSummaryResultMap.containsKey(label)) {
+			jtlSummaryResultMap.put(label, new JtlSummaryResult());
+		} 
+			
+		jtlSummaryResult = jtlSummaryResultMap.get(label);
+		summaryResult = jtlSummaryResultMap.get("Summary");
+		
+		// 1、统计请求数量(总数量)
+		summaryResult.setSumSampleCounters();
+		jtlSummaryResult.setSumSampleCounters();
+
+
+		// 3、记录响应时间(总)
+		summaryResult.setSumResponseTime(Long.parseLong(results[1]));
+		// 3.1 记录label对应对象的总时间
+		jtlSummaryResult.setSumResponseTime(Long.parseLong(results[1]));
+
+		// 3.2 label对应对象的最小时间初始化
+		minResponseTime = jtlSummaryResult.getMinResponseTime();
+		if (minResponseTime == -1) {
+			jtlSummaryResult.setMinResponseTime(Long.parseLong(results[1]));
+			summaryResult.setMinResponseTime(Long.parseLong(results[1]));  //总的最小响应时间初始化
+
+		}
+		// 3.3 label对应对象的最小时间更新
+		if (Long.parseLong(results[1]) < minResponseTime) {
+			jtlSummaryResult.setMinResponseTime(Long.parseLong(results[1]));
+		}
+		// 3.4 label对应对象的最大时间更新
+		if (Long.parseLong(results[1]) > jtlSummaryResult.getMaxResponseTime()) {
+			jtlSummaryResult.setMaxResponseTime(Long.parseLong(results[1]));
+		}
+
+		// 4、统计错误数
+		Integer responseCode = 0;
+		try {
+			responseCode = Integer.parseInt(results[3]);
+		} catch (Exception e) {
+			// e.printStackTrace();
+		}
+
+		if (!(responseCode / 100 == 2 || responseCode / 100 == 3 && Boolean.parseBoolean(results[7]) == true)){
+			summaryResult.setErrorCounters();
+			jtlSummaryResult.setErrorCounters(); // 重载方法 自增一
+		}
+
+		// 5、统计网络流量（请求的）
+		summaryResult.setSumBytes(Double.parseDouble(results[8]));
+		jtlSummaryResult.setSumBytes(Double.parseDouble(results[8]));
+	}
+	
+	
+	public static void main(String[] args) {
+//		String jtlResultFile = "/Users/perfermance/JmeterTest/results/jtl/usr_login_1605121605.jtl";
+//		String jtlResultFile = "/Users/perfermance/JmeterTest/results/jtl/800.jtl";
+		String jtlResultFile = "/Users/perfermance/JmeterTest/results/jtl/900.jtl";
+		Map<String,JtlSummaryResult> jtlSummaryResultMap = new JtlParserCSV().jtlParser(jtlResultFile);
+		Set<String> set = jtlSummaryResultMap.keySet();
+		for(Object obj:set){
+			System.out.println(obj + "---->" + jtlSummaryResultMap.get(obj));
+		}
+		
+	} 
+
+	
+	
 
 }
