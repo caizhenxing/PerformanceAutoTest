@@ -81,13 +81,13 @@ public class PerfermanceTestServlet extends HttpServlet {
 		System.out.println(logFile);
 		System.out.println(jmxPlanTemple);
 		
-		System.out.println("ip" + ip);
-		System.out.println("port" + port);
-		System.out.println("path" + path);
-		System.out.println("parameters" + parameters);
-		System.out.println("method" + method);
-		System.out.println("vuser" + vuser);
-		System.out.println("assertion" + assertion);
+		System.out.println("ip：" + ip);
+		System.out.println("port：" + port);
+		System.out.println("path：" + path);
+		System.out.println("parameters：" + parameters);
+		System.out.println("method：" + method);
+		System.out.println("vuser：" + vuser);
+		System.out.println("assertion：" + assertion);
 		
 		
 		/**
